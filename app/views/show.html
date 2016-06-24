@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>show</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+	</head>
+	<body>
+		<h2>{{ receiver["first_name"] }} {{ receiver["last_name"] }}</h2>
+		<p>Registered at: {{ receiver["created_at"] }}</p>
+		<p>User ID: #{{ receiver["id"] }}</p>
+		<p>Email address: {{ receiver["email"] }}</p>
+		<p>Description: {{ receiver["description"] }}</p>
+
+		<h2>Leave a message for {{ receiver["first_name"] }}</h2>
+		<form action="/users/post_message/{{ user['id'] }}/{{ receiver['id'] }}" method="post">
+			<textarea name="message"></textarea>
+			<input type="submit" name="post" value="Post">
+		</form>
+
+		{% for message in messages %}
+			<p>{{ message["first_name"] }} {{ message["last_name"] }} wrote</p>
+			<div>{{ message["message"] }}</div>
+			{% if message["message_id"] in comments %}
+				{% with cmts = comments[message["message_id"]] %}
+					{% for cmt in cmts %}
+						<p>{{ cmt["first_name"] }} {{ cmt["last_name"] }} wrote</p>
+						<div>{{ cmt["comment"] }}</div>
+					{% endfor %}
+				{% endwith %}
+			{% endif %}
+			<form action="/users/post_comment/{{ message['message_id'] }}/{{ user['id'] }}" method="post">
+				<textarea name="comment"></textarea>
+				<input type="submit" name="post" value="Post">
+			</form>
+		{% endfor %}
+	</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>edit</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+	</head>
+	<body>
+		{% if user_id == 0 %}
+			<h1>Edit profile</h1>
+		{% else %}
+			<h1>Edit user #{{ user_id }}</h1>
+			<form action="/dashboard/admin">
+				<input type="submit" name="back" value="Return to Dashboard">
+			</form>
+		{% endif %}
+
+		<form action="/users/edit_user_info/{{ info['id'] }}" method="post">
+			<fieldset>
+				<legend>Edit Information</legend>
+				Email Address: <br>
+				<input type="text" name="email" value="{{ info['email'] }}"><br>
+				First Name: <br>
+				<input type="text" name="first_name" value="{{ info['first_name'] }}"><br>
+				Last Name: <br>
+				<input type="text" name="last_name" value="{{ info['last_name'] }}"><br>
+				{% if user_id != 0 %}
+					<select>
+						<option value="0">normal</option>
+						<option value="1">admin</option>
+					</select>
+				{% endif %}
+				<input type="submit" name="save" value="Save">
+			</fieldset>
+		</form>
+
+		<form action="/users/edit_user_password/{{ info['id'] }}" method="post">
+			<fieldset>
+				<legend>Change Password</legend>
+				Password: <br>
+				<input type="text" name="pwd"><br>
+				Password Confirmation: <br>
+				<input type="text" name="pwd_confirm"><br>
+				<input type="submit" name="update" value="Update Password">
+			</fieldset>
+		</form>
+
+		{% if user_id != 0 %}
+			<form action="/users/edit_user_desc/{{ info['id'] }}" method="post">
+				<fieldset>
+					<legend>Edit Description</legend>
+					<textarea name="desc"></textarea>
+					<input type="submit" name="save" value="Save">
+				</fieldset>
+			</form>
+		{% endif %}
+	</body>
+</html>

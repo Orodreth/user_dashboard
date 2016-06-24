@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>register</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+	</head>
+	<body>
+		{% if from_admin == 0 %}
+			<h1>Register</h1>
+		{% else %}
+			<h1>Add a new user</h1>
+			<form action="/dashboard/admin">
+				<input type="submit" name="back" value="Return to Dashboard">
+			</form>
+		{% endif %}
+		<form action="/users/register_process" method="post">
+			Email Address: <br>
+			<input type="text" name="email"><br>
+			First Name: <br>
+			<input type="text" name="first_name"><br>
+			Last Name: <br>
+			<input type="text" name="last_name"><br>
+			Password: <br>
+			<input type="password" name="pwd"><br>
+			Password Confirmation: <br>
+			<input type="password" name="pwd_confirm"><br>
+			{% if from_admin == 0 %}
+				<input type="submit" name="reg" value="Register">
+			{% else %}
+				<input type="submit" name="reg" value="Create">
+			{% endif %}
+		</form>
+
+		{% if from_admin == 0 %}
+			<a href="/signin">Already have an account? Login.</a>
+		{% endif %}
+	</body>
+</html>
